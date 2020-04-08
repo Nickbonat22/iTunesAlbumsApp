@@ -10,5 +10,5 @@ Made with:
 * Unit testing
 
 Preview:
-![GitHub Logo](/previewimages/iPhone11)
+![GitHub Logo](/previewImages/iPhone11.png)
 Format: ![Alt Text](url)
