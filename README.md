@@ -8,3 +8,7 @@ Made with:
 * No third party libraries
 * No force unwraps
 * Unit testing
+
+Preview:
+![GitHub Logo](/previewimages/iPhone11)
+Format: ![Alt Text](url)
