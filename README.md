@@ -9,6 +9,7 @@ Made with:
 * No force unwraps
 * Unit testing
 
-Preview:
-![test](/previewImages/iPhone11.png)
-
+| Screen 1  | Screen 2  |
+|---|---|
+| ![](/previewImages/iPhone11.png)  |  ![](/previewImages/iPhone11-2.png) |
+|![](/previewImages/iPhone6.png)|![](/previewImages/iPhone6-2.png)|
