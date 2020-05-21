@@ -11,6 +11,7 @@
 		5D0A82822435555E0011DE28 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A82812435555E0011DE28 /* AlbumModel.swift */; };
 		5D0A8285243567470011DE28 /* RSSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A8284243567470011DE28 /* RSSAPI.swift */; };
 		5D0A8287243687A20011DE28 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A8286243687A20011DE28 /* DetailsViewController.swift */; };
+		5D6A955C24770B0B0037C00A /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6A955B24770B0B0037C00A /* AlbumViewModel.swift */; };
 		5DC07A54243BE5D700DE93DC /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC07A53243BE5D700DE93DC /* ImageLoader.swift */; };
 		5DC07A56243C46FD00DE93DC /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC07A55243C46FD00DE93DC /* Extentions.swift */; };
 		5DDF9D582435383100F30BAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDF9D572435383100F30BAE /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		5D0A82812435555E0011DE28 /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
 		5D0A8284243567470011DE28 /* RSSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSAPI.swift; sourceTree = "<group>"; };
 		5D0A8286243687A20011DE28 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		5D6A955B24770B0B0037C00A /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		5DC07A53243BE5D700DE93DC /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		5DC07A55243C46FD00DE93DC /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		5DDF9D542435383100F30BAE /* iTunes Albums.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iTunes Albums.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,11 +70,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5DC07A57243C4EA200DE93DC /* ViewControllers */ = {
+		5D6A955A24770AF20037C00A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5D6A955B24770B0B0037C00A /* AlbumViewModel.swift */,
 			);
-			path = ViewControllers;
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5D6A955D24770EBD0037C00A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5D0A8284243567470011DE28 /* RSSAPI.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		5DDF9D4B2435383100F30BAE = {
@@ -96,17 +107,16 @@
 		5DDF9D562435383100F30BAE /* iTunesAlbums */ = {
 			isa = PBXGroup;
 			children = (
-				5DC07A57243C4EA200DE93DC /* ViewControllers */,
+				5DFA733C24770FE9005D04E9 /* Controllers */,
+				5DFA733B24770FCE005D04E9 /* Model */,
+				5DFA733A24770FB4005D04E9 /* View */,
+				5D6A955D24770EBD0037C00A /* Service */,
+				5D6A955A24770AF20037C00A /* ViewModel */,
 				5DDF9D572435383100F30BAE /* AppDelegate.swift */,
 				5DDF9D592435383100F30BAE /* SceneDelegate.swift */,
 				5DDF9D602435383600F30BAE /* Assets.xcassets */,
 				5DDF9D622435383600F30BAE /* LaunchScreen.storyboard */,
 				5DDF9D652435383600F30BAE /* Info.plist */,
-				5D0A827F243554880011DE28 /* AlbumCell.swift */,
-				5D0A82812435555E0011DE28 /* AlbumModel.swift */,
-				5D0A8284243567470011DE28 /* RSSAPI.swift */,
-				5DDF9D8724353D9100F30BAE /* ShowAlbumsViewController.swift */,
-				5D0A8286243687A20011DE28 /* DetailsViewController.swift */,
 				5DC07A53243BE5D700DE93DC /* ImageLoader.swift */,
 				5DC07A55243C46FD00DE93DC /* Extentions.swift */,
 			);
@@ -120,6 +130,31 @@
 				5DDF9D702435383600F30BAE /* Info.plist */,
 			);
 			path = iTunesAlbumsTests;
+			sourceTree = "<group>";
+		};
+		5DFA733A24770FB4005D04E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5D0A827F243554880011DE28 /* AlbumCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5DFA733B24770FCE005D04E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5D0A82812435555E0011DE28 /* AlbumModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5DFA733C24770FE9005D04E9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5DDF9D8724353D9100F30BAE /* ShowAlbumsViewController.swift */,
+				5D0A8286243687A20011DE28 /* DetailsViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +265,7 @@
 				5D0A8285243567470011DE28 /* RSSAPI.swift in Sources */,
 				5D0A8287243687A20011DE28 /* DetailsViewController.swift in Sources */,
 				5D0A82822435555E0011DE28 /* AlbumModel.swift in Sources */,
+				5D6A955C24770B0B0037C00A /* AlbumViewModel.swift in Sources */,
 				5D0A8280243554880011DE28 /* AlbumCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

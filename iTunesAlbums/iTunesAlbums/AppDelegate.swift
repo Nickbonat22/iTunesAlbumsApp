@@ -9,21 +9,12 @@
 import UIKit
 
 var lightGrayColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1.0)
-//let imageCache = NSCache<AnyObject, AnyObject>()
-////let t = NSCache()
-//
-//var image = UIImage()
-//
-//var imageURL = URL(string: "")
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        // set all labels to this font
-//        UILabel.appearance().substituteFontName = "AvenirNext-Medium"
         
         return true
     }
