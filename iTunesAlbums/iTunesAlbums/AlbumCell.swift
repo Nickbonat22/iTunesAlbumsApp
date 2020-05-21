@@ -32,12 +32,13 @@ class AlbumCell: UITableViewCell {
     func setupImage(url: String){
         addSubview(background)
         background.translatesAutoresizingMaskIntoConstraints = false
-        
+        let cellHeight = contentView.frame.height-20
+    
         NSLayoutConstraint.activate([
             background.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             background.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10),
-            background.heightAnchor.constraint(equalToConstant: 110.0),
-            background.widthAnchor.constraint(equalToConstant: 110.0)
+            background.heightAnchor.constraint(equalToConstant: cellHeight),
+            background.widthAnchor.constraint(equalToConstant: cellHeight)
         ])
         
         background.layer.shadowColor = UIColor.black.cgColor
@@ -54,8 +55,8 @@ class AlbumCell: UITableViewCell {
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: background.topAnchor),
             thumbnailImageView.leftAnchor.constraint(equalTo: background.leftAnchor),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: 110.0),
-            thumbnailImageView.widthAnchor.constraint(equalToConstant: 110.0)
+            thumbnailImageView.heightAnchor.constraint(equalToConstant: cellHeight),
+            thumbnailImageView.widthAnchor.constraint(equalToConstant: cellHeight)
         ])
     }
     
@@ -63,22 +64,24 @@ class AlbumCell: UITableViewCell {
         addSubview(albumNameLabel)
         addSubview(artistNameLabel)
         
+        let cellHeight = contentView.frame.height
+        
         albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
         albumNameLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
             albumNameLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 0),
             albumNameLabel.leftAnchor.constraint(equalTo: background.rightAnchor, constant: 10),
             albumNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 10.0),
-            albumNameLabel.widthAnchor.constraint(equalToConstant: self.contentView.frame.size.width - 125)
+            albumNameLabel.widthAnchor.constraint(equalToConstant: self.contentView.frame.size.width - cellHeight)
         ])
         
         artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
         artistNameLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
             artistNameLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 5),
-            artistNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 130),
+            artistNameLabel.leftAnchor.constraint(equalTo: background.rightAnchor, constant: 10),
             artistNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 10.0),
-            artistNameLabel.widthAnchor.constraint(equalToConstant: self.contentView.frame.size.width - 125)
+            artistNameLabel.widthAnchor.constraint(equalToConstant: self.contentView.frame.size.width - cellHeight)
         ])
         
         albumNameLabel.textColor = .black

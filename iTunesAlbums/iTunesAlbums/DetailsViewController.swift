@@ -132,7 +132,6 @@ class DetailsViewController: UIViewController {
         centerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(centerView)
         let width = view.frame.width / 1.5
-        print(width)
         NSLayoutConstraint.activate([
             centerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 22),
             centerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

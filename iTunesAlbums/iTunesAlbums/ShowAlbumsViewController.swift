@@ -112,7 +112,7 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
         // set row height so user can see the outline of the table while it is loading
-        tableView.rowHeight = 130
+//        tableView.rowHeight = 130
         // register
         tableView.register(AlbumCell.self, forCellReuseIdentifier: self.cellID)
     }
@@ -181,9 +181,10 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130.0
+        let cellHeight:CGFloat = view.frame.height / 6
+        return cellHeight
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let album = music[indexPath.row]
         
