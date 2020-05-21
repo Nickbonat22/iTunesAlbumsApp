@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol AlubumDelegate {
+    func didTapCell(album: AlbumDetails)
+}
+
 class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var albumDelegate: AlubumDelegate?
     
     // variables for views
     let tableView = UITableView()
@@ -113,16 +119,17 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // get album name, artist name, release data, thumbnail, genre, copyright, and url from API, then add to array
     func getMusic(){
-        if let rssURL = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/\(numberOfAlbums)/explicit.json") {
+        // create semaphore
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        guard let rssURL = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/\(numberOfAlbums)/explicit.json") else {return;}
             URLSession.shared.dataTask(with: rssURL) {data, _, _ in
-                if let data2 = data {
-                    DispatchQueue.main.async(execute: {
+                if let data = data {
                     do {
-                        let json = try JSONDecoder().decode(RSSData.self, from: data2)
-                        if let feed = json.feed{
+                        let json = try JSONDecoder().decode(RSSData.self, from: data)
+                        if let feed = json.feed {
                             let results = feed.results
-                            for item in results{
-                                
+                            for item in results {
                                 // if these values aren't nil, add them to these variables
                                 guard let album = item?.name, let artist = item?.artistName, let date = item?.releaseDate, let img = item?.artworkUrl100, let genre = item?.genres.first, let copyright = item?.copyright, let url = item?.url else {
                                     return;
@@ -130,18 +137,24 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
                                 guard let genreName = genre?.name else{
                                     return;
                                 }
-                                
+                                DispatchQueue.main.async(execute: {
                                 // fill model and add to music array
                                 let albumDetails = AlbumDetails(count: self.count, albumTitle: album, artistName: artist, releaseDate: date, imageURL: img, genres: genreName, copyright: copyright, url: url)
                                 self.music.append(albumDetails)
+                                })
                                 // using count as a primary key if necessary for future use, but not necessary right now
                                 self.count += 1
                             }
+                            // signal the data has finished being called
+                            semaphore.signal()
                         }
                     }catch {
                         print("parsing failed")
                         print(error)
                     }
+                    // wait for completion of data call
+                    semaphore.wait()
+                    DispatchQueue.main.async(execute: {
                         // api is finished: create array that will show the data for detailVC
                         self.activityView.stopAnimating()
                         self.setupTableView()
@@ -150,7 +163,6 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
                     }) // end dispatch queue
                 } // end session
             }.resume()
-        }
     }
     
     // configure table
@@ -173,7 +185,7 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let song = music[indexPath.row]
+        let album = music[indexPath.row]
         
         // only show back button
         let backItem = UIBarButtonItem()
@@ -182,7 +194,8 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         // assign data to detailsVC and push controller onto nav stack
         let detailsVC = DetailsViewController()
-        detailsVC.musicDetails = song
+        albumDelegate.self = detailsVC
+        albumDelegate?.didTapCell(album: album)
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
         
@@ -198,3 +211,4 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 }
+

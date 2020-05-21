@@ -10,9 +10,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    // data passed to this view controller
-    var musicDetails: AlbumDetails?
-    var albumCover: UIImage?
+    var itunesURL: String?
     
     // views
     let centerView = UIView()
@@ -29,11 +27,11 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
             navigationController?.navigationBar.prefersLargeTitles = true
-        } 
+        }
         setupNavBar()
         createImageView()
         createButton()
@@ -50,9 +48,6 @@ class DetailsViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .white
-        
-        // set title 
-        self.title = musicDetails?.albumTitle
     }
     
     // create the button that handles the fast app switch
@@ -79,7 +74,7 @@ class DetailsViewController: UIViewController {
     
     // fast app switch
     @objc func buttonAction(sender: UIButton) {
-        if let urlString = musicDetails?.url {
+        if let urlString = itunesURL {
             if let url = URL(string: urlString),
                 UIApplication.shared.canOpenURL(url) {
                 if #available(iOS 10.0, *) {
@@ -110,12 +105,6 @@ class DetailsViewController: UIViewController {
         labelHelper(label: genre, aboveLabel: artistName)
         labelHelper(label: releaseDate, aboveLabel: genre)
         labelHelper(label: copyright, aboveLabel: releaseDate)
-
-        // assign text from dic to label
-        artistName.text = musicDetails?.artistName ?? "Artist Name"
-        genre.text = musicDetails?.genres ?? "Genre"
-        releaseDate.text = musicDetails?.releaseDate ?? "Release Date"
-        copyright.text = musicDetails?.copyright ?? "Copyright"
         
         // smaller font for copyright label
         copyright.font = UIFont(name: "AvenirNext-Regular", size: 10)
@@ -142,12 +131,13 @@ class DetailsViewController: UIViewController {
     func createImageView() {
         centerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(centerView)
-        
+        let width = view.frame.width / 1.5
+        print(width)
         NSLayoutConstraint.activate([
             centerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 22),
             centerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            centerView.heightAnchor.constraint(equalToConstant: 250),
-            centerView.widthAnchor.constraint(equalToConstant: 250),
+            centerView.heightAnchor.constraint(equalToConstant: width),
+            centerView.widthAnchor.constraint(equalToConstant: width),
         ])
         centerView.backgroundColor = .white
         centerView.layer.shadowColor = UIColor.black.cgColor
@@ -160,14 +150,34 @@ class DetailsViewController: UIViewController {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: centerView.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerView.centerYAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 250),
-            imageView.widthAnchor.constraint(equalToConstant: 250),
+            imageView.heightAnchor.constraint(equalToConstant: width),
+            imageView.widthAnchor.constraint(equalToConstant: width),
         ])
-        
+    }
+    
+    func addLabelText(album: AlbumDetails) {
+        // assign text from dic to label
+        artistName.text = album.artistName ?? "Artist Name"
+        genre.text = album.genres ?? "Genre"
+        releaseDate.text = album.releaseDate ?? "Release Date"
+        copyright.text = album.copyright ?? "Copyright"
+    }
+    
+    func addImageURL(album: AlbumDetails) {
         // set image
-        if let imgURL = musicDetails?.imageURL {
+        if let imgURL = album.imageURL {
             self.imageView.loadFromURL(imgURL)
         }
     }
 }
 
+extension DetailsViewController: AlubumDelegate {
+    func didTapCell(album: AlbumDetails) {
+        self.title = album.albumTitle
+        addLabelText(album: album)
+        addImageURL(album: album)
+        if let url = album.url {
+            itunesURL = url
+        }
+    }
+}
