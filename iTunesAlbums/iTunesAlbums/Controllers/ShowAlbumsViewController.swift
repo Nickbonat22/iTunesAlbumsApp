@@ -8,13 +8,14 @@
 
 import UIKit
 
-protocol AlubumDelegate {
+protocol AlubumDelegate: class {
     func didTapCell(album: AlbumViewModel)
 }
 
 class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var albumDelegate: AlubumDelegate?
+    // weak is used to avoid a retain cycle
+    weak var albumDelegate: AlubumDelegate?
     
     // variables for views
     let tableView = UITableView()
