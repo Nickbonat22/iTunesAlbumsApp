@@ -12,7 +12,7 @@ protocol AlubumDelegate: class {
     func didTapCell(album: AlbumViewModel)
 }
 
-class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ShowAlbumsViewController: UIViewController {
     
     // weak is used to avoid a retain cycle
     weak var albumDelegate: AlubumDelegate?
@@ -165,18 +165,25 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
             }.resume()
     }
     
+    
+}
+
+extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource {
     // configure table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return music.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath) as! AlbumCell
-        // get the correct index and configure the cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath) as? AlbumCell else {
+            // show defualt cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+            return cell
+        }
+        // if cell is not nil: populate with the appropriate data
         let album = music[indexPath.row]
         cell.configure(with: album)
-        cell.selectionStyle = .none
-        
+
         return cell
     }
     
@@ -212,4 +219,3 @@ class ShowAlbumsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 }
-

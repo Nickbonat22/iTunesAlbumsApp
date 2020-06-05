@@ -5,6 +5,8 @@
 //  Created by Nicholas Bonat on 5/21/20.
 //  Copyright © 2020 Nicholas Bonat. All rights reserved.
 //
+import UIKit
+
 
 struct AlbumViewModel {
     var count: Int?
@@ -15,6 +17,7 @@ struct AlbumViewModel {
     var genres: String?
     var copyright: String?
     var url: String?
+    
     
     // dependency injection
     init(album: AlbumDetails) {

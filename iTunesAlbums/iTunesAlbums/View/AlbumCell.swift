@@ -17,7 +17,7 @@ class AlbumCell: UITableViewCell {
     
     func configure(with music: AlbumViewModel){
         self.contentView.backgroundColor = .white
-        
+        self.selectionStyle = .none
         if let imgURL = music.imageURL{
             setupImage(url: imgURL)
         }
@@ -48,7 +48,7 @@ class AlbumCell: UITableViewCell {
         
         // load image
         thumbnailImageView.loadFromURL(url)
-
+        
         background.addSubview(thumbnailImageView)
         thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
         
