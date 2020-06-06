@@ -33,7 +33,6 @@ class ShowAlbumsViewController: UIViewController {
     
     // variables for getting album data
     var numberOfAlbums = 100
-    var count = 1
     var music = [AlbumViewModel]() {
         didSet {
             tableView.reloadData()
@@ -43,7 +42,7 @@ class ShowAlbumsViewController: UIViewController {
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         // reset data structures for fresh data
         self.music = []
-        getMusic()
+        fetchData()
         self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
@@ -55,7 +54,7 @@ class ShowAlbumsViewController: UIViewController {
              navigationController?.navigationBar.prefersLargeTitles = true
         }
         showActivityIndicatory()
-        getMusic()
+        fetchData()
     }
     
     override func loadView() {
@@ -118,52 +117,23 @@ class ShowAlbumsViewController: UIViewController {
     }
     
     // get album name, artist name, release data, thumbnail, genre, copyright, and url from API, then add to array
-    func getMusic(){
-        // create semaphore
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        guard let rssURL = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/\(numberOfAlbums)/explicit.json") else {return;}
-            URLSession.shared.dataTask(with: rssURL) {data, _, _ in
-                if let data = data {
-                    do {
-                        let json = try JSONDecoder().decode(RSSData.self, from: data)
-                        if let feed = json.feed {
-                            let results = feed.results
-                            for item in results {
-                                // if these values aren't nil, add them to these variables
-                                guard let album = item?.name, let artist = item?.artistName, let date = item?.releaseDate, let img = item?.artworkUrl100, let genre = item?.genres, let copyright = item?.copyright, let url = item?.url else {
-                                    return;
-                                }
+    fileprivate func fetchData() {
+        Service.shared.fetchAlbums { (albums, err) in
+            if let err = err {
+                print("Failed to fetch courses:", err)
+                return
+            }
+            
+            // append to self.music using map
+            self.music = albums?.map({return AlbumViewModel(album: $0)}) ?? []
 
-                                DispatchQueue.main.async(execute: {
-                                // fill model and add to music array
-                                let albumDetails = AlbumViewModel(album: AlbumDetails(count: self.count, albumTitle: album, artistName: artist, releaseDate: date, imageURL: img, genres: genre, copyright: copyright, url: url))
-                                self.music.append(albumDetails)
-                                })
-                                // using count as a primary key if necessary for future use, but not necessary right now
-                                self.count += 1
-                            }
-                            // signal the data has finished being called
-                            semaphore.signal()
-                        }
-                    }catch {
-                        print("parsing failed")
-                        print(error)
-                    }
-                    // wait for completion of data call
-                    semaphore.wait()
-                    DispatchQueue.main.async(execute: {
-                        // api is finished: create array that will show the data for detailVC
-                        self.activityView.stopAnimating()
-                        self.setupTableView()
-                        // add refresh ability once initial loading of table
-                        self.tableView.addSubview(self.refreshControl)
-                    }) // end dispatch queue
-                } // end session
-            }.resume()
+            self.tableView.reloadData()
+            self.activityView.stopAnimating()
+            self.setupTableView()
+            // add refresh ability once initial loading of table
+            self.tableView.addSubview(self.refreshControl)
+        }
     }
-    
-    
 }
 
 extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource {

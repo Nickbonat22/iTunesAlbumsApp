@@ -7,9 +7,7 @@
 //
 import UIKit
 
-
 struct AlbumViewModel {
-    var count: Int?
     var albumTitle: String?
     var artistName: String?
     var releaseDate: String?
@@ -18,8 +16,16 @@ struct AlbumViewModel {
     var copyright: String?
     var url: String?
     
+    // font size depending on screen size
+    var size: CGFloat {
+        if UIScreen.main.bounds.width <= 375 {
+            return 13
+        } else {
+            return 15
+        }
+    }
     
-    func getGenres(album: AlbumViewModel) -> String {
+    func getGenresString(album: AlbumViewModel) -> String {
         let genres = album.genres
         var genreString = ""
         for i in genres {
@@ -30,17 +36,15 @@ struct AlbumViewModel {
             }
         }
         return genreString
-
     }
     
     // dependency injection
-    init(album: AlbumDetails) {
-        self.count = album.count
-        self.albumTitle = album.albumTitle
+    init(album: results) {
+        self.albumTitle = album.name
         self.artistName = album.artistName
         self.releaseDate = album.releaseDate
-        self.imageURL = album.imageURL
-        self.genres = album.genres
+        self.imageURL = album.artworkUrl100
+        self.genres = album.genres ?? []
         self.copyright = album.copyright
         self.url = album.url
     }

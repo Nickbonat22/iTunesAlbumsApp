@@ -155,11 +155,11 @@ class DetailsViewController: UIViewController {
     }
     
     func addLabelText(album: AlbumViewModel) {
-        // assign text from dic to label
+        // assign text to label
         artistName.text = album.artistName ?? "Artist Name"
         releaseDate.text = album.releaseDate ?? "Release Date"
         copyright.text = album.copyright ?? "Copyright"
-        let genreString = album.getGenres(album: album)
+        let genreString = album.getGenresString(album: album)
         genre.text = genreString
     }
     
