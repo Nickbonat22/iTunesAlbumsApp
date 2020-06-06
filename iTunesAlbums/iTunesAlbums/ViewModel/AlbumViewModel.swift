@@ -14,10 +14,24 @@ struct AlbumViewModel {
     var artistName: String?
     var releaseDate: String?
     var imageURL: String?
-    var genres: String?
+    var genres: [genres?]
     var copyright: String?
     var url: String?
     
+    
+    func getGenres(album: AlbumViewModel) -> String {
+        let genres = album.genres
+        var genreString = ""
+        for i in genres {
+            if genres[genres.count - 1]?.name != i?.name {
+                genreString += "\(i?.name ?? ""), "
+            } else {
+                genreString += "\(i?.name ?? "")"
+            }
+        }
+        return genreString
+
+    }
     
     // dependency injection
     init(album: AlbumDetails) {

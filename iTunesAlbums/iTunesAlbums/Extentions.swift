@@ -28,6 +28,6 @@ extension UILabel {
         set { self.font = UIFont(name: newValue, size: 20) }
     }
     func setFont(fName: String) {
-        self.font = UIFont(name: fName, size: 20)
+        self.font = UIFont(name: fName, size: 15)
     }
 }

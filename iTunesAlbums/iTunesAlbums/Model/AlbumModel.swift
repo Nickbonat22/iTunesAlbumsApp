@@ -13,7 +13,7 @@ struct AlbumDetails {
     var artistName: String?
     var releaseDate: String?
     var imageURL: String?
-    var genres: String?
+    var genres: [genres?]
     var copyright: String?
     var url: String?
 }

@@ -118,7 +118,7 @@ class DetailsViewController: UIViewController {
         // set to 0 and height is dynamic so label text will alwways fit on the screen
         label.numberOfLines = 0
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: aboveLabel.bottomAnchor, constant: 10),
+            label.topAnchor.constraint(equalTo: aboveLabel.bottomAnchor, constant: 5),
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
@@ -145,7 +145,7 @@ class DetailsViewController: UIViewController {
         centerView.layer.shadowRadius = 4
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
+        centerView.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: centerView.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerView.centerYAnchor),
@@ -157,9 +157,10 @@ class DetailsViewController: UIViewController {
     func addLabelText(album: AlbumViewModel) {
         // assign text from dic to label
         artistName.text = album.artistName ?? "Artist Name"
-        genre.text = album.genres ?? "Genre"
         releaseDate.text = album.releaseDate ?? "Release Date"
         copyright.text = album.copyright ?? "Copyright"
+        let genreString = album.getGenres(album: album)
+        genre.text = genreString
     }
     
     func addImageURL(album: AlbumViewModel) {

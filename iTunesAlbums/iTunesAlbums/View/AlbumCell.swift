@@ -87,8 +87,14 @@ class AlbumCell: UITableViewCell {
         albumNameLabel.textColor = .black
         artistNameLabel.textColor = .darkGray
         
-        albumNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 17)
-        artistNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 17)
+        // small screen
+        if contentView.frame.width <= 375 {
+            albumNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 13)
+            artistNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 13)
+        } else {
+            albumNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 17)
+            artistNameLabel.font = UIFont(name: "AvenirNext-Medium", size: 17)
+        }
         
         albumNameLabel.text = music.albumTitle
         artistNameLabel.text = music.artistName

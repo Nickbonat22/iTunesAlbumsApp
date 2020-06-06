@@ -112,7 +112,7 @@ class ShowAlbumsViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
         // set row height so user can see the outline of the table while it is loading
-//        tableView.rowHeight = 130
+        tableView.rowHeight = view.frame.height / 8
         // register
         tableView.register(AlbumCell.self, forCellReuseIdentifier: self.cellID)
     }
@@ -131,15 +131,13 @@ class ShowAlbumsViewController: UIViewController {
                             let results = feed.results
                             for item in results {
                                 // if these values aren't nil, add them to these variables
-                                guard let album = item?.name, let artist = item?.artistName, let date = item?.releaseDate, let img = item?.artworkUrl100, let genre = item?.genres.first, let copyright = item?.copyright, let url = item?.url else {
+                                guard let album = item?.name, let artist = item?.artistName, let date = item?.releaseDate, let img = item?.artworkUrl100, let genre = item?.genres, let copyright = item?.copyright, let url = item?.url else {
                                     return;
                                 }
-                                guard let genreName = genre?.name else{
-                                    return;
-                                }
+
                                 DispatchQueue.main.async(execute: {
                                 // fill model and add to music array
-                                let albumDetails = AlbumViewModel(album: AlbumDetails(count: self.count, albumTitle: album, artistName: artist, releaseDate: date, imageURL: img, genres: genreName, copyright: copyright, url: url))
+                                let albumDetails = AlbumViewModel(album: AlbumDetails(count: self.count, albumTitle: album, artistName: artist, releaseDate: date, imageURL: img, genres: genre, copyright: copyright, url: url))
                                 self.music.append(albumDetails)
                                 })
                                 // using count as a primary key if necessary for future use, but not necessary right now
@@ -188,7 +186,7 @@ extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellHeight:CGFloat = view.frame.height / 6
+        let cellHeight:CGFloat = view.frame.height / 8
         return cellHeight
     }
 
