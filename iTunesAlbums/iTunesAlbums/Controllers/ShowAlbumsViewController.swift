@@ -18,42 +18,37 @@ class ShowAlbumsViewController: UIViewController {
     weak var albumDelegate: AlubumDelegate?
     
     // variables for views
-    let tableView = UITableView()
+    fileprivate let tableView = UITableView()
+    
     let activityView = UIActivityIndicatorView()
     var refresher: UIRefreshControl?
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ShowAlbumsViewController.handleRefresh(_:)), for: UIControl.Event.valueChanged)
+        refreshControl.addTarget(self, action: #selector(self.handleRefresh(_:)), for: UIControl.Event.valueChanged)
         refreshControl.tintColor = .gray
         return refreshControl
     }()
     
-    let cellID = "cellAlbum"
-    
-    // variables for getting album data
-    var numberOfAlbums = 100
-    var music = [AlbumViewModel]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        // reset data structures for fresh data
+        // reset data structure for fresh data
         self.music = []
         fetchData()
         self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
     
+    // variable for getting album data
+    var music = [AlbumViewModel]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 11.0, *) {
-             navigationItem.largeTitleDisplayMode = .always
-             navigationController?.navigationBar.prefersLargeTitles = true
-        }
-        showActivityIndicatory()
+        setupActivityIndicatory()
+        startActivityIndicatory()
         fetchData()
     }
     
@@ -65,7 +60,28 @@ class ShowAlbumsViewController: UIViewController {
         setupNav()
     }
     
+    // get album name, artist name, release data, thumbnail, genre, copyright, and url from API, then add to array
+    fileprivate func fetchData() {
+        Service.shared.fetchAlbums { (albums, err) in
+            if let err = err {
+                print("Failed to fetch courses:", err)
+                return
+            }
+            
+            // append to self.music using map
+            self.music = albums?.map({return AlbumViewModel(album: $0)}) ?? []
+            
+            self.stopActivityIndicatory()
+            self.setupTableView()
+        }
+    }
+    
     func setupNav(){
+        if #available(iOS 11.0, *) {
+             navigationItem.largeTitleDisplayMode = .always
+             navigationController?.navigationBar.prefersLargeTitles = true
+        }
+        
         extendedLayoutIncludesOpaqueBars = true;
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .white
@@ -80,21 +96,28 @@ class ShowAlbumsViewController: UIViewController {
         // add nav bar bottom color line
         navigationController?.navigationBar.setBackgroundImage(UIColor.clear.as1ptImage(), for: .default)
         // Set the shadow color.
-        navigationController?.navigationBar.shadowImage = lightGrayColor.as1ptImage()
+        navigationController?.navigationBar.shadowImage = UIColor.lightGrayColor.as1ptImage()
         
-        self.title = "Top \(self.numberOfAlbums) Albums"
+        self.title = "Top \(Constants.totalAlbums) Albums"
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func showActivityIndicatory() {
+    func setupActivityIndicatory() {
         activityView.style = .large
         activityView.color = .gray
         activityView.center = self.view.center
         view.addSubview(activityView)
+    }
+    
+    func startActivityIndicatory() {
         activityView.startAnimating()
+    }
+    
+    func stopActivityIndicatory() {
+        activityView.stopAnimating()
     }
     
     func setupTableView(){
@@ -110,29 +133,15 @@ class ShowAlbumsViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
-        // set row height so user can see the outline of the table while it is loading
-        tableView.rowHeight = view.frame.height / 8
+        tableView.tableFooterView = UIView()
+        
+        // set row height so user can see the outline of the table while it is being refreshed
+        tableView.rowHeight = view.frame.height / 7
         // register
-        tableView.register(AlbumCell.self, forCellReuseIdentifier: self.cellID)
-    }
-    
-    // get album name, artist name, release data, thumbnail, genre, copyright, and url from API, then add to array
-    fileprivate func fetchData() {
-        Service.shared.fetchAlbums { (albums, err) in
-            if let err = err {
-                print("Failed to fetch courses:", err)
-                return
-            }
-            
-            // append to self.music using map
-            self.music = albums?.map({return AlbumViewModel(album: $0)}) ?? []
-
-            self.tableView.reloadData()
-            self.activityView.stopAnimating()
-            self.setupTableView()
-            // add refresh ability once initial loading of table
-            self.tableView.addSubview(self.refreshControl)
-        }
+        tableView.register(AlbumCell.self, forCellReuseIdentifier: Constants.cellID)
+        
+        // add refresh ability
+        tableView.addSubview(self.refreshControl)
     }
 }
 
@@ -143,12 +152,12 @@ extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath) as? AlbumCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath) as? AlbumCell else {
             // show defualt cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
             return cell
         }
-        // if cell is not nil: populate with the appropriate data
+        // populate with the appropriate data
         let album = music[indexPath.row]
         cell.configure(with: album)
 
@@ -156,7 +165,7 @@ extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellHeight:CGFloat = view.frame.height / 8
+        let cellHeight:CGFloat = view.frame.height / 7
         return cellHeight
     }
 
@@ -177,7 +186,7 @@ extension ShowAlbumsViewController:  UITableViewDelegate, UITableViewDataSource 
         
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            cell.contentView.backgroundColor = lightGrayColor
+            cell.contentView.backgroundColor = .lightGrayColor
         }
     }
 

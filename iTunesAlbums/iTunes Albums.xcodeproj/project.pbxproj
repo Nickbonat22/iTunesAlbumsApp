@@ -19,6 +19,7 @@
 		5DDF9D642435383600F30BAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDF9D622435383600F30BAE /* LaunchScreen.storyboard */; };
 		5DDF9D6F2435383600F30BAE /* iTunesAlbumsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDF9D6E2435383600F30BAE /* iTunesAlbumsTests.swift */; };
 		5DDF9D8824353D9100F30BAE /* ShowAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDF9D8724353D9100F30BAE /* ShowAlbumsViewController.swift */; };
+		5DE7CA03248BEF8100A584F9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE7CA02248BEF8100A584F9 /* Constants.swift */; };
 		5DED2EF1248B545C00225D49 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DED2EF0248B545C00225D49 /* Service.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		5DDF9D6E2435383600F30BAE /* iTunesAlbumsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesAlbumsTests.swift; sourceTree = "<group>"; };
 		5DDF9D702435383600F30BAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DDF9D8724353D9100F30BAE /* ShowAlbumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlbumsViewController.swift; sourceTree = "<group>"; };
+		5DE7CA02248BEF8100A584F9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5DED2EF0248B545C00225D49 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 				5DDF9D652435383600F30BAE /* Info.plist */,
 				5DC07A53243BE5D700DE93DC /* ImageLoader.swift */,
 				5DC07A55243C46FD00DE93DC /* Extentions.swift */,
+				5DE7CA02248BEF8100A584F9 /* Constants.swift */,
 			);
 			path = iTunesAlbums;
 			sourceTree = "<group>";
@@ -201,7 +204,7 @@
 		5DDF9D4C2435383100F30BAE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Nicholas Bonat";
 				TargetAttributes = {
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DDF9D8824353D9100F30BAE /* ShowAlbumsViewController.swift in Sources */,
+				5DE7CA03248BEF8100A584F9 /* Constants.swift in Sources */,
 				5DDF9D582435383100F30BAE /* AppDelegate.swift in Sources */,
 				5DC07A54243BE5D700DE93DC /* ImageLoader.swift in Sources */,
 				5DC07A56243C46FD00DE93DC /* Extentions.swift in Sources */,

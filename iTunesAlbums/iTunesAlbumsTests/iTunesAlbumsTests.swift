@@ -13,9 +13,9 @@ class iTunesAlbumsTests: XCTestCase {
 
     // valid url of album artwork
     let imgURL = "https://is2-ssl.mzstatic.com/image/thumb/Music124/v4/dd/25/8c/dd258c8a-f804-785f-1268-ad3cac0db873/20UMGIM04591.rgb.jpg/200x200bb.png"
-    let linkURL = "https://music.apple.com/us/album/my-turn/1498988850?app=music"
     
-    var albumDetails = AlbumDetails()
+    let result = results()
+    var albumDetails = AlbumViewModel(album: results())
     
     func testLoadImage() {
         let img = ImageLoader()
@@ -24,22 +24,21 @@ class iTunesAlbumsTests: XCTestCase {
     }
     
     func testInitialModel() {
+        
         // initial declaration of the class is empty
-        XCTAssertNil(albumDetails.count)
         XCTAssertNil(albumDetails.albumTitle)
         XCTAssertNil(albumDetails.artistName)
         XCTAssertNil(albumDetails.releaseDate)
         XCTAssertNil(albumDetails.imageURL)
-        XCTAssertNil(albumDetails.genres)
         XCTAssertNil(albumDetails.copyright)
         XCTAssertNil(albumDetails.url)
     }
     
     func testPopulatedModel() {
-        albumDetails = AlbumDetails(count: 1, albumTitle: "My Turn", artistName: "Lil Baby", releaseDate: "2020-02-28", imageURL: imgURL, genres: "Hip-Hop/Rap", copyright: "Quality Control Music", url: linkURL)
+        let result = results(artistName: "Lil Baby", name: "My Turn", releaseDate: "2020-02-28", artworkUrl100: "imgURL", copyright: "Quality Control Music", url: "url", genres: [genres(name: "Hip-Hop/Rap")])
+        albumDetails = AlbumViewModel(album: result)
         
         // assert there are values
-        XCTAssertNotNil(albumDetails.count)
         XCTAssertNotNil(albumDetails.albumTitle)
         XCTAssertNotNil(albumDetails.artistName)
         XCTAssertNotNil(albumDetails.releaseDate)
@@ -48,14 +47,14 @@ class iTunesAlbumsTests: XCTestCase {
         XCTAssertNotNil(albumDetails.copyright)
         XCTAssertNotNil(albumDetails.url)
         
-        // assert values are correct
-        XCTAssertEqual(albumDetails.count, 1)
-        XCTAssertEqual(albumDetails.albumTitle, "My Turn")
-        XCTAssertEqual(albumDetails.artistName, "Lil Baby")
-        XCTAssertEqual(albumDetails.releaseDate, "2020-02-28")
-        XCTAssertEqual(albumDetails.genres, "Hip-Hop/Rap")
-        
-        XCTAssertEqual(albumDetails.copyright, "Quality Control Music")
+        // assert DI is working
+        XCTAssertEqual(result.name, albumDetails.albumTitle)
+        XCTAssertEqual(result.artistName, albumDetails.artistName)
+        XCTAssertEqual(result.releaseDate, albumDetails.releaseDate)
+        XCTAssertEqual(result.artworkUrl100, albumDetails.imageURL)
+        XCTAssertEqual(result.genres?.first?.name, albumDetails.genres?.first?.name)
+        XCTAssertEqual(result.copyright, albumDetails.copyright)
+        XCTAssertEqual(result.url, albumDetails.url)
         
         let music = [albumDetails]
         // check array holds correct data in correct index

@@ -8,8 +8,6 @@
 
 import UIKit
 
-var lightGrayColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1.0)
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

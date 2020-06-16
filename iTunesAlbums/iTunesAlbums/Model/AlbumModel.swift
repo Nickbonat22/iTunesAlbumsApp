@@ -28,6 +28,3 @@ struct results: Codable {
 struct genres: Codable {
     var name: String?
 }
-
-
-

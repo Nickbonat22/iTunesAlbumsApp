@@ -28,10 +28,6 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
         setupNavBar()
         createImageView()
         createButton()
@@ -43,8 +39,13 @@ class DetailsViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    // set up the header and assign title to the album
+    // set up the header
     func setupNavBar() {
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+        
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = .white
@@ -156,9 +157,9 @@ class DetailsViewController: UIViewController {
     
     func addLabelText(album: AlbumViewModel) {
         // assign text to label
-        artistName.text = album.artistName ?? "Artist Name"
-        releaseDate.text = album.releaseDate ?? "Release Date"
-        copyright.text = album.copyright ?? "Copyright"
+        artistName.text = album.artistName ?? ""
+        releaseDate.text = album.releaseDate ?? ""
+        copyright.text = album.copyright ?? ""
         let genreString = album.getGenresString(album: album)
         genre.text = genreString
     }

@@ -67,7 +67,8 @@ class AlbumCell: UITableViewCell {
         let cellHeight = contentView.frame.height
         
         albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        albumNameLabel.numberOfLines = 0
+        // allow 3 lines maximum for album name to avoid overflow onto next cell
+        albumNameLabel.numberOfLines = 3
         NSLayoutConstraint.activate([
             albumNameLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 0),
             albumNameLabel.leftAnchor.constraint(equalTo: background.rightAnchor, constant: 10),
@@ -76,7 +77,8 @@ class AlbumCell: UITableViewCell {
         ])
         
         artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        artistNameLabel.numberOfLines = 0
+        // allow 1 line maximum for artist name to avoid overflow onto next cell
+        artistNameLabel.numberOfLines = 1
         NSLayoutConstraint.activate([
             artistNameLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 5),
             artistNameLabel.leftAnchor.constraint(equalTo: background.rightAnchor, constant: 10),
@@ -93,5 +95,3 @@ class AlbumCell: UITableViewCell {
         artistNameLabel.text = music.artistName
     }
 }
-
-

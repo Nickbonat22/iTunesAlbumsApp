@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIColor {
+    static let lightGrayColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1.0)
     // stackoverflow code
     // Converts this `UIColor` instance to a 1x1 `UIImage` instance and returns it.
     // - Returns: `self` as a 1x1 `UIImage`.
