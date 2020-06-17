@@ -1,7 +1,7 @@
 # iTunesAlbumsApp
 An iOS app that shows the top 100 albums on iTunes using: https://rss.itunes.apple.com/en-us
 There are two versions: ObserverPattern and Protocals/DelegatesPattern.
-The ObserverPattern folder implements the project using an observer and the Protocals/DelegatesPattern folder uses protocals/delegates
+The ObserverPattern folder implements the project using a notifications and observers while the Protocals:DelegatesPattern folder uses protocals/delegates
 
 Notifications/Observers: one-to-many relationship <br/>
 Protocals/Delegates: one-to-one relationship
